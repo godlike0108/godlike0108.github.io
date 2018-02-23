@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/23/Examine-Prime-Number/index.html">
 <meta property="og:site_name" content="Dev Arel">
 <meta property="og:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
-<meta property="og:updated_time" content="2018-02-23T08:08:29.696Z">
+<meta property="og:updated_time" content="2018-02-23T08:09:53.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Examine Prime Number">
 <meta name="twitter:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
@@ -152,8 +152,8 @@
 e=>end
 x=>inputoutput: input
 c1=>condition: input%1>0 and input=1?
-d=>inputoutput: divisor as 2
-c2=>condition: input%divisor is 0?
+d=>inputoutput: divisor=2
+c2=>condition: input%divisor=0?
 c3=>condition: divisorsqrt(input)?
 p=>operation: divisor++
 t=>inputoutput: true
