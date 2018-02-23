@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/23/Examine-Prime-Number/index.html">
 <meta property="og:site_name" content="Dev Arel">
 <meta property="og:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
-<meta property="og:updated_time" content="2018-02-23T08:01:02.093Z">
+<meta property="og:updated_time" content="2018-02-23T08:02:36.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Examine Prime Number">
 <meta name="twitter:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
@@ -143,7 +143,7 @@
 <h2 id="流程圖"><a href="#流程圖" class="headerlink" title="流程圖"></a>流程圖</h2><p><code>input</code>：欲檢查的數<br><code>divisor</code>：除數</p>
 <div id="flowchart-0" class="flow-chart"></div>
 
-<h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p>```javascript<br>// Javascript</p>
+<h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p>```js<br>// Javascript</p>
 <p>function isPrime(x) {</p>
 <p>  if(x &lt;= 1 || x % 1 != 0) {<br>      return false;<br>  }</p>
 <p>  for(let i = 2; i &lt; Math.sqrt(x); i++) {<br>      if(x % i === 0) return false;<br>  }</p>
@@ -154,7 +154,8 @@ x=>inputoutput: input
 c1=>condition: input%10 and input1?
 d=>inputoutput: divisor as 2
 c2=>condition: input%divisor is 0?
-c3=>condition: divisor<sqrt(input)? p="">operation: divisor++
+c3=>condition: divisorsqrt(input)?
+p=>operation: divisor++
 t=>inputoutput: true
 f=>inputoutput: false
 
@@ -164,7 +165,7 @@ c1(no,right)->f->e
 c2(yes,right)->f->e
 c2(no)->c3
 c3(yes)->p(left)->c2
-c3(no)->t->e</sqrt(input)?></textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></p>
+c3(no)->t->e</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></p>
 
   </div>
 </article>
