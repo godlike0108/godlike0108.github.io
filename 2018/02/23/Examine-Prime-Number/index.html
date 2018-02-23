@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/23/Examine-Prime-Number/index.html">
 <meta property="og:site_name" content="Dev Arel">
 <meta property="og:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
-<meta property="og:updated_time" content="2018-02-23T06:57:39.535Z">
+<meta property="og:updated_time" content="2018-02-23T07:28:35.097Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Examine Prime Number">
 <meta name="twitter:description" content="質數（Prime Number）的定義：如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。 檢查條件 質數必為正整數且大於 1因為 1 的因數只有 1 ，不符合定義 對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數舉例： 100 的因數有：1 x 1002 x 504 x 255 x 2010 x 1">
@@ -96,7 +96,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#質數（Prime-Number）的定義："><span class="toc-number">1.</span> <span class="toc-text">質數（Prime Number）的定義：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#檢查條件"><span class="toc-number">2.</span> <span class="toc-text">檢查條件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流程圖"><span class="toc-number">3.</span> <span class="toc-text">流程圖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程式碼"><span class="toc-number">4.</span> <span class="toc-text">程式碼</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#質數（Prime-Number）的定義："><span class="toc-number">1.</span> <span class="toc-text">質數（Prime Number）的定義：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#檢查條件"><span class="toc-number">2.</span> <span class="toc-text">檢查條件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程圖"><span class="toc-number">3.</span> <span class="toc-text">流程圖</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -135,20 +135,15 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="質數（Prime-Number）的定義："><a href="#質數（Prime-Number）的定義：" class="headerlink" title="質數（Prime Number）的定義："></a>質數（Prime Number）的定義：</h3><p>如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。</p>
-<h3 id="檢查條件"><a href="#檢查條件" class="headerlink" title="檢查條件"></a>檢查條件</h3><ul>
+    <h2 id="質數（Prime-Number）的定義："><a href="#質數（Prime-Number）的定義：" class="headerlink" title="質數（Prime Number）的定義："></a>質數（Prime Number）的定義：</h2><p>如果正整數 N 的因數只有 1 和 N ，而且 1 和 N 不相等，則正整數 N 為質數。</p>
+<h2 id="檢查條件"><a href="#檢查條件" class="headerlink" title="檢查條件"></a>檢查條件</h2><ul>
 <li>質數必為正整數且大於 1<br>因為 1 的因數只有 1 ，不符合定義</li>
 <li>對某數 X 開根號並命名為 sqrtX ，小於 sqrtX 的所有正整數若不能整除 X ，則 X 必為質數<br>舉例： 100 的因數有：<br>1 x 100<br>2 x 50<br>4 x 25<br>5 x 20<br><strong>10 x 10</strong><br>20 x 5<br>25 x 4<br>50 x 2<br>100 x 1<br>超過開根號後的數皆為重複，故檢查開根號前的數字是否整除即可。</li>
 </ul>
-<h3 id="流程圖"><a href="#流程圖" class="headerlink" title="流程圖"></a>流程圖</h3><p><code>input</code>：欲檢查的數<br><code>divisor</code>：除數</p>
+<h2 id="流程圖"><a href="#流程圖" class="headerlink" title="流程圖"></a>流程圖</h2><p><code>input</code>：欲檢查的數<br><code>divisor</code>：除數</p>
 <div id="flowchart-0" class="flow-chart"></div>
 
-<h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><p>```js<br>// Javascript</p>
-<p>function isPrime(x) {</p>
-<p>  if(x &lt;= 1 || x % 1 != 0) {<br>      return false;<br>  }</p>
-<p>  for(let i = 2; i &lt; Math.sqrt(x); i++) {<br>      if(x % i === 0) return false;<br>  }</p>
-<p>  return true;</p>
-<p>}<br>```<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start
+<p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start
 e=>end
 x=>inputoutput: input
 c1=>condition: input%1=0 &&
@@ -198,7 +193,7 @@ c3(no)->t->e</sqrt(input)?></textarea><textarea id="flowchart-0-options" style="
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#質數（Prime-Number）的定義："><span class="toc-number">1.</span> <span class="toc-text">質數（Prime Number）的定義：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#檢查條件"><span class="toc-number">2.</span> <span class="toc-text">檢查條件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流程圖"><span class="toc-number">3.</span> <span class="toc-text">流程圖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程式碼"><span class="toc-number">4.</span> <span class="toc-text">程式碼</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#質數（Prime-Number）的定義："><span class="toc-number">1.</span> <span class="toc-text">質數（Prime Number）的定義：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#檢查條件"><span class="toc-number">2.</span> <span class="toc-text">檢查條件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程圖"><span class="toc-number">3.</span> <span class="toc-text">流程圖</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
