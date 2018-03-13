@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="何謂 npm ？npm（Node Package Manager）用來管理 Node.js 所安裝的模組。 npm 分成三個部分：  網站 Command Line Tool 登記處（Registry）： 用來登記、管理開發者所發佈的模組。  我們會常使用到的是 Command Line Tool ，在安裝 Node.js 時 npm 就自動被安裝了。 npm init - 初始化 npm 資料夾">
+<meta name="keywords" content="npm,node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NPM 入門">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/NPM-Basics/index.html">
+<meta property="og:site_name" content="Dev Arel">
+<meta property="og:description" content="何謂 npm ？npm（Node Package Manager）用來管理 Node.js 所安裝的模組。 npm 分成三個部分：  網站 Command Line Tool 登記處（Registry）： 用來登記、管理開發者所發佈的模組。  我們會常使用到的是 Command Line Tool ，在安裝 Node.js 時 npm 就自動被安裝了。 npm init - 初始化 npm 資料夾">
+<meta property="og:updated_time" content="2018-03-13T16:20:30.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NPM 入門">
+<meta name="twitter:description" content="何謂 npm ？npm（Node Package Manager）用來管理 Node.js 所安裝的模組。 npm 分成三個部分：  網站 Command Line Tool 登記處（Registry）： 用來登記、管理開發者所發佈的模組。  我們會常使用到的是 Command Line Tool ，在安裝 Node.js 時 npm 就自動被安裝了。 npm init - 初始化 npm 資料夾">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>NPM 入門</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Accueil</a></li>
+         
+          <li><a href="/about/">A propos</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projets</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/02/23/Examine-Prime-Number/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Article précédent</span>
+      <span id="i-next" class="info" style="display:none;">Article suivant</span>
+      <span id="i-top" class="info" style="display:none;">Retour au début</span>
+      <span id="i-share" class="info" style="display:none;">Partager cette article</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/NPM-Basics/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/NPM-Basics/&text=NPM 入門"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/NPM-Basics/&is_video=false&description=NPM 入門"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=NPM 入門&body=Check out this article: http://yoursite.com/2018/03/14/NPM-Basics/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/NPM-Basics/&name=NPM 入門&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#何謂-npm-？"><span class="toc-number">1.</span> <span class="toc-text">何謂 npm ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-init-初始化-npm-資料夾"><span class="toc-number">2.</span> <span class="toc-text">npm init - 初始化 npm 資料夾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">3.</span> <span class="toc-text">package.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-安裝-module"><span class="toc-number">4.</span> <span class="toc-text">npm install - 安裝 module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dependencies-模組的依存關係"><span class="toc-number">5.</span> <span class="toc-text">dependencies - 模組的依存關係</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-list-查看模組之間的依存"><span class="toc-number">6.</span> <span class="toc-text">npm list - 查看模組之間的依存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-remove-移除模組"><span class="toc-number">7.</span> <span class="toc-text">npm remove - 移除模組</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-常用的參數"><span class="toc-number">8.</span> <span class="toc-text">npm install 常用的參數</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-save-exact-固定模組版本"><span class="toc-number">9.</span> <span class="toc-text">npm install --save-exact - 固定模組版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-版本定義"><span class="toc-number">10.</span> <span class="toc-text">npm 版本定義</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-lock-json-鎖定版本"><span class="toc-number">11.</span> <span class="toc-text">package-lock.json - 鎖定版本</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        NPM 入門
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Arel</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-13T16:19:11.000Z" itemprop="datePublished">2018-03-14</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/node/">node</a>, <a class="tag-link" href="/tags/npm/">npm</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="何謂-npm-？"><a href="#何謂-npm-？" class="headerlink" title="何謂 npm ？"></a>何謂 npm ？</h2><p>npm（Node Package Manager）用來管理 Node.js 所安裝的模組。</p>
+<p>npm 分成三個部分：</p>
+<ul>
+<li>網站</li>
+<li>Command Line Tool</li>
+<li>登記處（Registry）： 用來登記、管理開發者所發佈的模組。</li>
+</ul>
+<p>我們會常使用到的是 Command Line Tool ，在安裝 Node.js 時 <code>npm</code> 就自動被安裝了。</p>
+<h2 id="npm-init-初始化-npm-資料夾"><a href="#npm-init-初始化-npm-資料夾" class="headerlink" title="npm init - 初始化 npm 資料夾"></a><code>npm init</code> - 初始化 npm 資料夾</h2><p>進入專案資料夾，輸入 <code>npm init</code> 可將將其變成 <code>npm</code> 管理的資料夾。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必須手動設定所有初始化選項</span></span><br><span class="line">$ npm init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全部的選項都照預設</span></span><br><span class="line">$ npm init -y</span><br></pre></td></tr></table></figure>
+<p>初始化後，資料夾內會出現 <code>package.json</code> 檔案，該檔案紀錄了關於目前的專案資料夾的基本資訊。</p>
+<p>要看 <code>package.json</code> 有什麼內容，除了直接用文字編輯器打開外，也可以在終端機使用 <code>cat</code> 指令，如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat package.json</span><br></pre></td></tr></table></figure>
+<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a><code>package.json</code></h2><p><code>package.json</code> 記錄專案的資訊，基本會有下列屬性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"nodeedx"</span>,  <span class="comment">// 專案名</span></span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>, <span class="comment">// 版本</span></span><br><span class="line">  <span class="string">"description"</span>: <span class="string">""</span>,  <span class="comment">// 敘述</span></span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"main.js"</span>, <span class="comment">// 優先執行的檔案</span></span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;   <span class="comment">// 依存模組</span></span><br><span class="line">    <span class="string">"express"</span>: <span class="string">"^4.16.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="string">"private"</span>: <span class="string">"true"</span>   <span class="comment">// 決定這個模組是公有或私有</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="npm-install-安裝-module"><a href="#npm-install-安裝-module" class="headerlink" title="npm install - 安裝 module"></a><code>npm install</code> - 安裝 module</h2><p>接下來安裝模組，安裝模組分成全域安裝（global install）跟區域安裝（local install），區域安裝只會把模組裝在當前的專案資料夾，全域安裝則會把模組安裝到 Node.js 安裝的位置。</p>
+<p>大部分的模組只與專案直接相關，因此一般來說我們傾向使用區域安裝。</p>
+<p>下面來安裝 <code>express</code> 做為示範。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 區域安裝用 express 示範</span></span><br><span class="line"></span><br><span class="line">$ npm install express <span class="comment"># 全名</span></span><br><span class="line">$ npm i express <span class="comment"># 簡寫</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 全域安裝用 node static server 示範</span></span><br><span class="line">$ npm i --global static <span class="comment"># 全名</span></span><br><span class="line">$ npm i -g static <span class="comment"># 簡寫</span></span><br></pre></td></tr></table></figure>
+<p>安裝完後檢視資料夾，會多兩項改變：</p>
+<ol>
+<li>專案資料夾下多出 <code>node_module</code> 資料夾，裡面裝著我們專案會使用到的模組 <code>express</code></li>
+<li><code>package.json</code> 檔案內多出 <code>dependencies</code> 分類，裡面會有 <code>express</code> 模組。</li>
+</ol>
+<p><code>node_modules</code> 裡面除了 <code>express</code> 模組外，還多了其他沒看過的模組。點開 <code>express</code> 資料夾內，會看到 <code>express</code> 模組專屬的 <code>package.json</code> ，點開後發現 <code>dependencies</code> 分類中出現 <code>node_modules</code> 資料夾內部分模組的名稱。</p>
+<h2 id="dependencies-模組的依存關係"><a href="#dependencies-模組的依存關係" class="headerlink" title="dependencies - 模組的依存關係"></a>dependencies - 模組的依存關係</h2><p>一個模組有可能是其他模組所組成的，這就是模組之間的依存關係（module dependency）。而 npm 會自動幫我們把所有依存的模組放進 <code>node_modules</code> ，確保程式不會因為漏掉某些模組而無法順利執行。</p>
+<p>而 <code>package.json</code> 裡面的 <code>dependencies</code> 負責記錄這些模組，一個專案資料夾只要有記錄完整的 <code>package.json</code>，只要輸入 <code>npm i</code> 就會把裡面記錄的所有依存模組都安裝，這讓專案的搬遷變得相當容易。</p>
+<p>舉例來說，當我們發佈文件到 git 上面時，若把整包 <code>node_modules</code> 都傳上去，檔案會很肥。我們可以用 <code>git ignore</code> 把 <code>node_modules</code> 踢出記錄，只傳送 <code>package.json</code> ，當別人從 git 上將專案 pull 下來後，輸入 <code>npm i</code> 就能夠獲取完整的依存模組。</p>
+<h2 id="npm-list-查看模組之間的依存"><a href="#npm-list-查看模組之間的依存" class="headerlink" title="npm list - 查看模組之間的依存"></a><code>npm list</code> - 查看模組之間的依存</h2><p>以樹狀結構表示模組間的依存關係，稱為 dependencies tree 。 要查看 dependencies tree ，可輸入 <code>npm list</code> ：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm list</span><br><span class="line">npm ls <span class="comment"># 簡寫</span></span><br></pre></td></tr></table></figure>
+<p>用 <code>npm list</code> 觀察 npm 如何幫我們處理模組之間的依存：</p>
+<p>首先注意到 <code>express</code> 有個依存模組 <code>qs</code>：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nodeedx@1.0.0 /Users/arel/Documents/ArelLearn/Backend/nodeedx</span><br><span class="line">├─┬ express@4.16.2</span><br><span class="line">│ │ └── qs@6.5.1</span><br></pre></td></tr></table></figure>
+<p>在 <code>node_modules</code> 資料夾內的確可以看到一個 <code>qs</code> 模組，且版本為 6.5.1 。<br>接著為專案故意安裝較舊版本的 <code>qs</code> 做為依存模組：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i qs@5 <span class="comment"># 安裝 5.x.x 的最新版</span></span><br></pre></td></tr></table></figure>
+<p>然後再看一次 dependencies tree ：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nodeedx@1.0.0 /Users/arel/Documents/ArelLearn/Backend/nodeedx</span><br><span class="line">├─┬ express@4.16.2</span><br><span class="line">│ │ └── qs@6.5.1</span><br><span class="line">│ └</span><br><span class="line">└── qs@5.2.1 <span class="comment"># 多了這個</span></span><br></pre></td></tr></table></figure>
+<p>舊版本的 <code>qs</code> 確實裝在專案上，且沒有影響到與 <code>express</code> 相依的 <code>qs</code> 。</p>
+<p>到 <code>node_modules</code> 看一下裡面的 <code>qs</code> 版本，竟然是 5.2.1 ！<br>原來的 6.5.1 版跑去哪了？</p>
+<p>點開 <code>express</code> 資料夾，會發現裡面新開了一個 <code>node_modules</code> ， 6.5.1 版的 <code>qs</code> 靜靜的躺在裡面。</p>
+<p>也就是說，Node.js 會幫我們管理專案內的依存模組之間的依存問題，當有版本衝突時，會自動為我們將模組建立複本並分類。</p>
+<h2 id="npm-remove-移除模組"><a href="#npm-remove-移除模組" class="headerlink" title="npm remove - 移除模組"></a><code>npm remove</code> - 移除模組</h2><p>萬一要移除模組的時候，不要手動移除，因為 <code>dependency tree</code> 上面都會紀錄，自己亂刪不一定刪得掉，要使用 <code>npm rm &lt;module&gt;</code> 移除， <code>npm</code> 自然會幫我們連 <code>package.json</code> 內的記錄一併做處理。指令如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm remove &lt;模組名稱&gt; <span class="comment"># 全名</span></span><br><span class="line">npm rm &lt;模組名稱&gt;			<span class="comment"># 簡寫</span></span><br><span class="line"></span><br><span class="line">npm rm -g &lt;模組名稱&gt;	<span class="comment"># 移除全域模組</span></span><br></pre></td></tr></table></figure>
+<h2 id="npm-install-常用的參數"><a href="#npm-install-常用的參數" class="headerlink" title="npm install 常用的參數"></a><code>npm install</code> 常用的參數</h2><p>使用 <code>npm install</code> 安裝模組加上特定參數可以指定不同模組的用途。</p>
+<p>以安裝 <code>express</code> 模組為例：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝最新版模組</span></span><br><span class="line">npm i express@latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝特定版本的模組</span></span><br><span class="line">npm i express@4.2.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝模組並且把模組加到 package.json 的 dependencies</span></span><br><span class="line">npm i express --save <span class="comment"># 預設，跟 npm i 一樣</span></span><br><span class="line">npm i express -S</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝模組並把模組加到 package.json 的 devDependencies</span></span><br><span class="line"><span class="comment"># 所謂的 devDependencies 就是開發時使用，生產時不用的模組</span></span><br><span class="line">npm i express --save-dev</span><br><span class="line">npm i express -D</span><br><span class="line"></span><br><span class="line"><span class="comment"># 這樣就不會把 devDependencies 的東西安裝到生產版本</span></span><br><span class="line">npm i --production</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝的版本是確切版本，不會向上或向下相容，不會隨新模組問世而更新</span></span><br><span class="line">npm i express --save-exact</span><br><span class="line">npm i express -E</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝全域模組</span></span><br><span class="line">npm i -g express</span><br></pre></td></tr></table></figure>
+<h2 id="npm-install-save-exact-固定模組版本"><a href="#npm-install-save-exact-固定模組版本" class="headerlink" title="npm install --save-exact - 固定模組版本"></a><code>npm install --save-exact</code> - 固定模組版本</h2><p>為什麼會有 <code>-exact</code> 這種東西的需要呢？</p>
+<p>打開 <code>package.json</code> 會發現我們裝的 <code>express</code> 版本長這樣 <code>^4.16.2</code> 前面那個 <code>^</code> 意思為向上相容，以後如果有更新的版本，例如 <code>4.20.2</code> 問世了，用 <code>npm i</code> 部署檔案時， <code>express</code> 會自動安裝最新的版本，這是很危險的，萬一有某個我們用到的功能在新版本被拔，就 GG 了。</p>
+<p><code>-exact</code> 就是用來避免這種事，它會讓 <code>package.json</code> 內的版本不會多前面那個符號，因此每次下載時都會是固定版本的模組。</p>
+<h2 id="npm-版本定義"><a href="#npm-版本定義" class="headerlink" title="npm 版本定義"></a>npm 版本定義</h2><p>說到版本，  Node.js 模組的版本表示方式採用語意版本（Semantic Versioning）簡稱 Semver ，由三個數字所組成。舉 <code>express</code> 的例， <code>4.16.2</code>，分別的意思如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">4 <span class="comment"># major - 版本有大改，會影響現有功能</span></span><br><span class="line">16 <span class="comment"># minor - 版本有小改，新增新功能但不至於影響現有功能</span></span><br><span class="line">2 <span class="comment"># patch - 版本錯誤修正，不影響功能</span></span><br></pre></td></tr></table></figure>
+<p>大概像這樣，如果列在 dependencies 的版本前面被加了 <code>^</code> ，那只有 minor 和 patch 變動時，會隨之更新。如果前面被加的是 <code>~</code> ，那就只有 patch 變動時會跟著更新。</p>
+<p>即使 <code>^</code> 不會動到 major ，但 minor 的版本改動仍有可能產生預期外的輸出結果。相對來說， <code>--save-exact</code> 對產品的部署是較安全的。</p>
+<p>題外話，對於正在開發的專案，如果我們要改動版本，我們可以使用以下命令：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm version patch <span class="comment"># patch + 1</span></span><br><span class="line">$ npm version minor <span class="comment"># minor + 1</span></span><br><span class="line">$ npm version major <span class="comment"># major + 1</span></span><br></pre></td></tr></table></figure>
+<h2 id="package-lock-json-鎖定版本"><a href="#package-lock-json-鎖定版本" class="headerlink" title="package-lock.json - 鎖定版本"></a><code>package-lock.json</code> - 鎖定版本</h2><p>在 npm 5.x.x 版以後，使用命令列更動模組配置時都會自動新增 <code>package-lock.json</code> 這個檔案。裡面記載了從模組到模組的所有依存模組的版本資訊。</p>
+<p>在 <code>npm install</code> 時，所有模組時會以 <code>package-lock.json</code> 內記載的版本狀態來安裝。且不會有向上或向下相容的狀態，全都是確切版本。</p>
+<p>既然有了 <code>--save-exact</code> ，為何還會需要 <code>package-lock.json</code> ？其中一個原因是 <code>--save-exact</code> 只能鎖住模組的版本，在沒有額外修改的情況下，不能鎖住模組的依存模組們的版本。</p>
+<p>舉例來說，專案使用 <code>express</code> ，其版本被 <code>--save-exact</code> 限制， <code>package.json</code> 內的 <code>dependencies</code> 如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"dependencies"</span>: &#123;   <span class="comment">// 依存模組</span></span><br><span class="line">  "express": "4.16.2" # 固定版本</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是 <code>express</code> 模組本身的依存模組有百百種，如果我們非作者本人，根本不可能去限制其依存模組的版本狀態，更不可能花時間去一個個更動。</p>
+<p>有 <code>package-lock.json</code> 就可以解決這個問題。</p>
+<p>當 <code>package.json</code> 透過命令被更新時， <code>package-lock.json</code> 中所有模組的依存狀態也會自動同步，因此要讓專案參與者使用何種版本的模組是我們可以決定的。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Veuillez activer JavaScript pour voir les réactions.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Accueil</a></li>
+         
+          <li><a href="/about/">A propos</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projets</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#何謂-npm-？"><span class="toc-number">1.</span> <span class="toc-text">何謂 npm ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-init-初始化-npm-資料夾"><span class="toc-number">2.</span> <span class="toc-text">npm init - 初始化 npm 資料夾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">3.</span> <span class="toc-text">package.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-安裝-module"><span class="toc-number">4.</span> <span class="toc-text">npm install - 安裝 module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dependencies-模組的依存關係"><span class="toc-number">5.</span> <span class="toc-text">dependencies - 模組的依存關係</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-list-查看模組之間的依存"><span class="toc-number">6.</span> <span class="toc-text">npm list - 查看模組之間的依存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-remove-移除模組"><span class="toc-number">7.</span> <span class="toc-text">npm remove - 移除模組</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-常用的參數"><span class="toc-number">8.</span> <span class="toc-text">npm install 常用的參數</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-install-save-exact-固定模組版本"><span class="toc-number">9.</span> <span class="toc-text">npm install --save-exact - 固定模組版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm-版本定義"><span class="toc-number">10.</span> <span class="toc-text">npm 版本定義</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-lock-json-鎖定版本"><span class="toc-number">11.</span> <span class="toc-text">package-lock.json - 鎖定版本</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/NPM-Basics/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/NPM-Basics/&text=NPM 入門"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/NPM-Basics/&is_video=false&description=NPM 入門"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=NPM 入門&body=Check out this article: http://yoursite.com/2018/03/14/NPM-Basics/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/NPM-Basics/&title=NPM 入門"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/NPM-Basics/&name=NPM 入門&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> Table des matière</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Partager</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Début</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Arel
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Accueil</a></li>
+         
+          <li><a href="/about/">A propos</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projets</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-114373704-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'arel-lin';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
