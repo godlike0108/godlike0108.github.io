@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Dev Arel">
 <meta property="og:description" content="安裝 Vue CLI1$ npm i -g vue/cli # 全域安裝 使用 Vue CLI 建立專案12# vue init &amp;lt;模板名稱&amp;gt; &amp;lt;專案名稱&amp;gt;$ vue init webpack-simple &amp;lt;專案名稱&amp;gt; 使用 Vue CLI 初始化專案，共有六種模版可選，這次使用的 webpack-simple 是選用 Webpack 作為整合工具搭配 Vue">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-03-27T11:21:06.498Z">
+<meta property="og:updated_time" content="2018-03-27T13:08:14.061Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Setup a Vue Webpack Simple Project Using Vue CLI">
 <meta name="twitter:description" content="安裝 Vue CLI1$ npm i -g vue/cli # 全域安裝 使用 Vue CLI 建立專案12# vue init &amp;lt;模板名稱&amp;gt; &amp;lt;專案名稱&amp;gt;$ vue init webpack-simple &amp;lt;專案名稱&amp;gt; 使用 Vue CLI 初始化專案，共有六種模版可選，這次使用的 webpack-simple 是選用 Webpack 作為整合工具搭配 Vue">
@@ -154,10 +154,13 @@
 <h3 id="el"><a href="#el" class="headerlink" title="el"></a><code>el</code></h3><p>傳入 Vue 實例的參數中， <code>el</code> 代表 Vue 實例掛載的位置，也就是 Vue 的作用範圍，在這裡為 <code>index.html</code> 內的 <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code> 。</p>
 <h3 id="render"><a href="#render" class="headerlink" title="render"></a><code>render</code></h3><p><code>render: h =&gt; h(App)</code> 其實是精簡後的寫法，原來的樣貌如下：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> createElement(App);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>瀏覽器利用 DOM Tree 控管必須呈現在頁面上的元素，相較於實體的 DOM Tree ， Vue 利用 <code>createElement</code> 生成「描述 DOM Tree 的資訊」，並在必要的時候依照該資訊呈現元素。這種方式又稱作虛擬 DOM （Virtual DOM）。 Render Function 負責把虛擬 DOM 印到頁面上。</p>
-<p>如上程式碼， <code>App</code> 是 Single File Component ，以模組的方式被引入的 <code>main.js</code> ，作為參數被傳進 <code>createElement</code> ，然後被 Render Function  呈現到頁面上。</p>
+<p>瀏覽器利用 DOM Tree 控管呈現在頁面上的元素。而相較於實體的 DOM Tree ， Vue 利用 Render Function 生成虛擬 DOM （Virtual DOM），並在編譯階段將虛擬 DOM 轉換成真實的 DOM 呈現到頁面上。</p>
+<p>所謂虛擬 DOM 只是一段輕量化的 JS 程式碼，該程式碼記錄了描述 DOM 的資訊，但並非 DOM 。</p>
+<p>將實體與虛擬 DOM 分離讓 Vue 操控 DOM 更加彈性，例如只需要虛擬 DOM 所記載的資訊，就可以選擇在 Server 做 Server Side Rendering 或是在前端 Render ，或者讓手機依照虛擬 DOM 所記錄的資訊操控手機端原生的元件等。</p>
+<p>如上程式碼， <code>App</code> 是 Single File Component ，以模組的方式被引入的 <code>main.js</code> ，經過 Loader 編譯後，作為參數被傳進 Render Function ，轉換成虛擬 DOM ，最後被 Vue 編譯為實體 DOM 呈現到頁面上。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
 <li><a href="https://github.com/vuejs-templates/webpack-simple/issues/29" target="_blank" rel="noopener"><code>main.js</code> 內的 Render Function</a></li>
+<li><a href="https://stackoverflow.com/questions/49509719/why-can-vue-render-function-process-single-file-component#49511667" target="_blank" rel="noopener">Vue Render Function 運作原理</a></li>
 </ol>
 
   </div>
