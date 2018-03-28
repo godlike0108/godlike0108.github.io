@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Complete Binary Tree一株二元樹（Binary Tree）若依序由左而右、由上而下排列，且除了最後一層外其餘層數皆排滿，即為 Complete Binary Tree 。 若第一個節點編號為 1 ，則從 Complete Binary Tree 任取一節點編號 k ，該節點的父節點、左邊子節點、右邊子節點都可以用公式表示： 父節點： k / 2 後無條件捨去左邊子節點： k *">
+<meta name="keywords" content="algorithm,heap,sort">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Heap Sort">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/Heap-Sort/index.html">
+<meta property="og:site_name" content="Dev Arel">
+<meta property="og:description" content="Complete Binary Tree一株二元樹（Binary Tree）若依序由左而右、由上而下排列，且除了最後一層外其餘層數皆排滿，即為 Complete Binary Tree 。 若第一個節點編號為 1 ，則從 Complete Binary Tree 任取一節點編號 k ，該節點的父節點、左邊子節點、右邊子節點都可以用公式表示： 父節點： k / 2 後無條件捨去左邊子節點： k *">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2018/03/28/Heap-Sort/82985D0524D85647F60F319FF0426C77.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/28/Heap-Sort/81A4E4219BF4AECEF167B36CC5E3C166.png">
+<meta property="og:updated_time" content="2018-03-28T16:37:29.174Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Heap Sort">
+<meta name="twitter:description" content="Complete Binary Tree一株二元樹（Binary Tree）若依序由左而右、由上而下排列，且除了最後一層外其餘層數皆排滿，即為 Complete Binary Tree 。 若第一個節點編號為 1 ，則從 Complete Binary Tree 任取一節點編號 k ，該節點的父節點、左邊子節點、右邊子節點都可以用公式表示： 父節點： k / 2 後無條件捨去左邊子節點： k *">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/28/Heap-Sort/82985D0524D85647F60F319FF0426C77.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Heap Sort</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/03/27/Setup-a-Vue-Webpack-Simple-Project-Using-Vue-CLI/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/28/Heap-Sort/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/28/Heap-Sort/&text=Heap Sort"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/28/Heap-Sort/&is_video=false&description=Heap Sort"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Heap Sort&body=Check out this article: http://yoursite.com/2018/03/28/Heap-Sort/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/28/Heap-Sort/&name=Heap Sort&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Complete-Binary-Tree"><span class="toc-number">1.</span> <span class="toc-text">Complete Binary Tree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heap-（堆積）"><span class="toc-number">2.</span> <span class="toc-text">Heap （堆積）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Max-Heap"><span class="toc-number">2.1.</span> <span class="toc-text">Max Heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Min-Heap"><span class="toc-number">2.2.</span> <span class="toc-text">Min Heap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heapify"><span class="toc-number">3.</span> <span class="toc-text">Heapify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-a-Heap"><span class="toc-number">4.</span> <span class="toc-text">Build a Heap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heap-Sort-（堆積排序）"><span class="toc-number">5.</span> <span class="toc-text">Heap Sort （堆積排序）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">5.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流程圖"><span class="toc-number">5.2.</span> <span class="toc-text">流程圖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程式碼"><span class="toc-number">5.3.</span> <span class="toc-text">程式碼</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">6.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Heap Sort
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Arel</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-28T15:58:27.000Z" itemprop="datePublished">2018-03-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/algorithm/">algorithm</a>, <a class="tag-link" href="/tags/heap/">heap</a>, <a class="tag-link" href="/tags/sort/">sort</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Complete-Binary-Tree"><a href="#Complete-Binary-Tree" class="headerlink" title="Complete Binary Tree"></a>Complete Binary Tree</h2><p>一株二元樹（Binary Tree）若依序由左而右、由上而下排列，且除了最後一層外其餘層數皆排滿，即為 Complete Binary Tree 。</p>
+<p>若第一個節點編號為 1 ，則從 Complete Binary Tree 任取一節點編號 <code>k</code> ，該節點的父節點、左邊子節點、右邊子節點都可以用公式表示：</p>
+<p>父節點： <code>k / 2</code> 後無條件捨去<br>左邊子節點： <code>k * 2</code><br>右邊子節點： <code>k * 2 + 1</code></p>
+<p>如下圖：<br><img src="/2018/03/28/Heap-Sort/82985D0524D85647F60F319FF0426C77.png"></p>
+<p>這個特性讓該資料結構可以被放在陣列之中運算。</p>
+<h2 id="Heap-（堆積）"><a href="#Heap-（堆積）" class="headerlink" title="Heap （堆積）"></a>Heap （堆積）</h2><p>Heap 是一種以 Complete Binary Tree 做為骨架的資料結構，分為兩種：</p>
+<h3 id="Max-Heap"><a href="#Max-Heap" class="headerlink" title="Max Heap"></a>Max Heap</h3><p>每個父節點的值永遠大於子節點。<br>公式： <code>Value[k / 2] &gt; Value[k]</code></p>
+<h3 id="Min-Heap"><a href="#Min-Heap" class="headerlink" title="Min Heap"></a>Min Heap</h3><p>每個子節點的值永遠大於父節點。<br>公式： <code>Value[k / 2] &lt; Value[k]</code></p>
+<p>使用 Heap 的好處是，位於節點編號 1 的值永遠都是最小值或最大值，因此對於 Heap 來說，要得到資料的極值是很方便的事。</p>
+<h2 id="Heapify"><a href="#Heapify" class="headerlink" title="Heapify"></a>Heapify</h2><p>在進入 Heap Sort 之前必須先知道如何將陣列資料轉為 Heap。假設一組由兩個子節點加上一個父節點所組成的小型二元樹。</p>
+<p>Heapify 的過程是將父節點與左子節點和右子節點比較，以 Max Heap 舉例，若最大值出現在某個子節點，則把該子節點的值與父節點的值互換。</p>
+<p>由於被更換後的子節點也可能是別人的父節點，因此必須找到該子節點為父節點的小型二元樹，重複最大值的檢查與交換，以此向下層類推，這就是 Heapify 的過程。</p>
+<p>如下圖：<br><img src="/2018/03/28/Heap-Sort/81A4E4219BF4AECEF167B36CC5E3C166.png"></p>
+<h2 id="Build-a-Heap"><a href="#Build-a-Heap" class="headerlink" title="Build a Heap"></a>Build a Heap</h2><p>要將一段長度為 N 隨機數組轉換成 Heap ，只要從 2/N （若為奇數則無條件捨去）處開始 Heapify 到第一筆資料就好。</p>
+<p>為何是 2/N ？ 上面有提到 Complete Binary Tree 的任一節點 X 的父節點位置為 2/X ，反過來說，也只有 2/N 以下的數字才會有子節點，有子節點才有做 Heap 的意義。</p>
+<h2 id="Heap-Sort-（堆積排序）"><a href="#Heap-Sort-（堆積排序）" class="headerlink" title="Heap Sort （堆積排序）"></a>Heap Sort （堆積排序）</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>Heap Sort 就是利用 Heap 資料結構的特性來對一串數列進行排序的演算法。舉例來說，若有一串數列是以 Min Heap 的方式排列，其編號為 1 的節點的值永遠是最小值。</p>
+<p>因此只要把編號為 1 的節點的值取走，然後將剩下的數列重新排為 Heap ，編號為 1 的節點又會再次出現剩餘資料的的最小值，重複「取走、重排」動作至最後一筆資料，就可以完成排序。</p>
+<p>整個程式分三部分：</p>
+<ul>
+<li>Build Heap：將陣列資料轉換成 Max Heap 資料結構</li>
+<li>Swap：把在節點 1 產生的最大值換到底部，將其視作已排序的值，不再動它</li>
+<li>Heapify：把剩下的數字重新轉換成 Max Heap，使新的最大值產生</li>
+</ul>
+<h3 id="流程圖"><a href="#流程圖" class="headerlink" title="流程圖"></a>流程圖</h3><div id="flowchart-0" class="flow-chart"></div>
+
+<h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><p>在 <code>heapSort</code> 前段，我們刻意在隨機數組前插入一個任意欄位。這是因為 Heap 只有在節點編號從 1 開始算起時，父節點與子節點間才會有上述公式的關聯性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 隨機陣列</span></span><br><span class="line"><span class="keyword">let</span> randomData = [<span class="number">5</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">7</span>, <span class="number">1</span>];</span><br><span class="line"><span class="keyword">let</span> size = randomData.length;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定義 heapify</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapify</span>(<span class="params">Arr, index, size</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 利用節點關聯性的公式來鎖定左右子節點的位置</span></span><br><span class="line">	<span class="keyword">let</span> left = index * <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">let</span> right = index * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> max = index;</span><br><span class="line">  <span class="keyword">if</span>(left &lt;= size &amp;&amp; Arr[index] &lt; Arr[left]) &#123;</span><br><span class="line">  	max = left;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(right &lt;= size &amp;&amp; Arr[max] &lt; Arr[right]) &#123;</span><br><span class="line">  	max = right;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(max !== index) &#123;</span><br><span class="line">  	<span class="keyword">let</span> temp = Arr[index];    </span><br><span class="line">    Arr[index] = Arr[max];</span><br><span class="line">    Arr[max] = temp;</span><br><span class="line">    heapify(Arr, max, size);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定義 build heap</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildHeap</span>(<span class="params">array, size</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="built_in">Math</span>.floor(size / <span class="number">2</span>); i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">  	heapify(array, i, size);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapSort</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 為了讓數組從 1 開始算，而插入欄位</span></span><br><span class="line">	<span class="keyword">let</span> result = array.slice();</span><br><span class="line">  result.unshift(<span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">  result = buildHeap(result, size);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = size; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">  	<span class="keyword">let</span> temp = result[i];</span><br><span class="line">    result[i] = result[<span class="number">1</span>];</span><br><span class="line">    result[<span class="number">1</span>] = temp;</span><br><span class="line">		heapify(result, <span class="number">1</span>, i<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">heapSort(randomData)</span><br></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://www.youtube.com/watch?v=MtQL_ll5KhQ" target="_blank" rel="noopener">GeeksForGeeks Heap Sort Video</a></li>
+<li><a href="http://alrightchiu.github.io/SecondRound/comparison-sort-heap-sortdui-ji-pai-xu-fa.html" target="_blank" rel="noopener">ChiuCC’s blog article</a><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start
+e=>end
+array=>inputoutput: array
+heap=>operation: Heapify(array)
+init=>inputoutput: i = heap size
+swap=>operation: Swap(heap[1], heap[i])
+next=>operation: i--
+update=>operation: Heapify(array[i])
+i=>condition: Is i = 1 ?
+
+
+st->array->heap->init->swap->next->update->i
+i(no)->swap
+i(yes)->e</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":14,"line-color":"#c9cacc","font-color":"#2bbc8a","fill":"rgba(0, 0, 0, 0.3)","element-color":"#2bbc8a"}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Complete-Binary-Tree"><span class="toc-number">1.</span> <span class="toc-text">Complete Binary Tree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heap-（堆積）"><span class="toc-number">2.</span> <span class="toc-text">Heap （堆積）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Max-Heap"><span class="toc-number">2.1.</span> <span class="toc-text">Max Heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Min-Heap"><span class="toc-number">2.2.</span> <span class="toc-text">Min Heap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heapify"><span class="toc-number">3.</span> <span class="toc-text">Heapify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-a-Heap"><span class="toc-number">4.</span> <span class="toc-text">Build a Heap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heap-Sort-（堆積排序）"><span class="toc-number">5.</span> <span class="toc-text">Heap Sort （堆積排序）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">5.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流程圖"><span class="toc-number">5.2.</span> <span class="toc-text">流程圖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程式碼"><span class="toc-number">5.3.</span> <span class="toc-text">程式碼</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">6.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/28/Heap-Sort/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/28/Heap-Sort/&text=Heap Sort"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/28/Heap-Sort/&is_video=false&description=Heap Sort"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Heap Sort&body=Check out this article: http://yoursite.com/2018/03/28/Heap-Sort/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/28/Heap-Sort/&title=Heap Sort"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/28/Heap-Sort/&name=Heap Sort&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Arel
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-114373704-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'arel-lin';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
