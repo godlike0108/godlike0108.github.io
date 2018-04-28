@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="摘要整個流程分成兩個階段：  Deploy: 手動將 GitHub 專案部署到 AWS 伺服器 CI Setup: 設定 Jenkins ，讓 Jenkin 偵測得到我們每次的 push ，並在 push 時自動將專案部署到伺服器上  Deploy註冊虛擬主機在這裡使用 AWS EC2 服務， EC2 服務是 AWS 提供的虛擬主機，使用者可以進行遠端存取並安裝、執行程式。流程大致如下： Laun">
+<meta name="keywords" content="aws,ci,jenkins,ec2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deployment and Setup CI">
+<meta property="og:url" content="http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/index.html">
+<meta property="og:site_name" content="Dev Arel">
+<meta property="og:description" content="摘要整個流程分成兩個階段：  Deploy: 手動將 GitHub 專案部署到 AWS 伺服器 CI Setup: 設定 Jenkins ，讓 Jenkin 偵測得到我們每次的 push ，並在 push 時自動將專案部署到伺服器上  Deploy註冊虛擬主機在這裡使用 AWS EC2 服務， EC2 服務是 AWS 提供的虛擬主機，使用者可以進行遠端存取並安裝、執行程式。流程大致如下： Laun">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-04-28T06:56:28.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deployment and Setup CI">
+<meta name="twitter:description" content="摘要整個流程分成兩個階段：  Deploy: 手動將 GitHub 專案部署到 AWS 伺服器 CI Setup: 設定 Jenkins ，讓 Jenkin 偵測得到我們每次的 push ，並在 push 時自動將專案部署到伺服器上  Deploy註冊虛擬主機在這裡使用 AWS EC2 服務， EC2 服務是 AWS 提供的虛擬主機，使用者可以進行遠端存取並安裝、執行程式。流程大致如下： Laun">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Deployment and Setup CI</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/03/28/Heap-Sort/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&text=Deployment and Setup CI"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&is_video=false&description=Deployment and Setup CI"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deployment and Setup CI&body=Check out this article: http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&name=Deployment and Setup CI&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Deploy"><span class="toc-number">2.</span> <span class="toc-text">Deploy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#註冊虛擬主機"><span class="toc-number">2.1.</span> <span class="toc-text">註冊虛擬主機</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Launch-Instance"><span class="toc-number">2.1.1.</span> <span class="toc-text">Launch Instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設定-Instance-的環境"><span class="toc-number">2.1.2.</span> <span class="toc-text">設定 Instance 的環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用本機連結-Instance"><span class="toc-number">2.1.3.</span> <span class="toc-text">利用本機連結 Instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AWS-的金鑰對"><span class="toc-number">2.1.4.</span> <span class="toc-text">AWS 的金鑰對</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Public-IP"><span class="toc-number">2.1.5.</span> <span class="toc-text">Public IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#終止不需要的-EC"><span class="toc-number">2.1.6.</span> <span class="toc-text">終止不需要的 EC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在虛擬主機中安裝伺服器"><span class="toc-number">2.2.</span> <span class="toc-text">在虛擬主機中安裝伺服器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#開-Port"><span class="toc-number">2.2.1.</span> <span class="toc-text">開 Port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手動將-Github-專案部署到伺服器"><span class="toc-number">2.3.</span> <span class="toc-text">手動將 Github 專案部署到伺服器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在伺服器安裝-Git"><span class="toc-number">2.3.1.</span> <span class="toc-text">在伺服器安裝 Git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移動到伺服器根目錄"><span class="toc-number">2.3.2.</span> <span class="toc-text">移動到伺服器根目錄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#對根目錄做-Git-初始化"><span class="toc-number">2.3.3.</span> <span class="toc-text">對根目錄做 Git 初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設定-AWS-主機的-SSH"><span class="toc-number">2.3.4.</span> <span class="toc-text">設定 AWS 主機的 SSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在-Github-專案設置-Deploy-Key"><span class="toc-number">2.3.5.</span> <span class="toc-text">在 Github 專案設置 Deploy Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設置-remote"><span class="toc-number">2.3.6.</span> <span class="toc-text">設置 remote</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CI-Setup"><span class="toc-number">3.</span> <span class="toc-text">CI Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安裝-Jenkins"><span class="toc-number">3.1.</span> <span class="toc-text">安裝 Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Jenkins"><span class="toc-number">3.2.</span> <span class="toc-text">使用 Jenkins</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#設定使用者"><span class="toc-number">3.2.1.</span> <span class="toc-text">設定使用者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新增作業"><span class="toc-number">3.2.2.</span> <span class="toc-text">新增作業</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#連接-Jenkins-和-GitHub"><span class="toc-number">3.2.3.</span> <span class="toc-text">連接 Jenkins 和 GitHub</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">3.3.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Deployment and Setup CI
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Arel</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-04-28T06:54:03.000Z" itemprop="datePublished">2018-04-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/aws/">aws</a>, <a class="tag-link" href="/tags/ci/">ci</a>, <a class="tag-link" href="/tags/ec2/">ec2</a>, <a class="tag-link" href="/tags/jenkins/">jenkins</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>整個流程分成兩個階段：</p>
+<ol>
+<li>Deploy: 手動將 GitHub 專案部署到 AWS 伺服器</li>
+<li>CI Setup: 設定 Jenkins ，讓 Jenkin 偵測得到我們每次的 push ，並在 push 時自動將專案部署到伺服器上</li>
+</ol>
+<h1 id="Deploy"><a href="#Deploy" class="headerlink" title="Deploy"></a>Deploy</h1><h2 id="註冊虛擬主機"><a href="#註冊虛擬主機" class="headerlink" title="註冊虛擬主機"></a>註冊虛擬主機</h2><p>在這裡使用 AWS EC2 服務， EC2 服務是 AWS 提供的虛擬主機，使用者可以進行遠端存取並安裝、執行程式。<br>流程大致如下：</p>
+<h3 id="Launch-Instance"><a href="#Launch-Instance" class="headerlink" title="Launch Instance"></a>Launch Instance</h3><p>在虛擬機器中開啟一個執行的個體。</p>
+<h3 id="設定-Instance-的環境"><a href="#設定-Instance-的環境" class="headerlink" title="設定 Instance 的環境"></a>設定 Instance 的環境</h3><p>例如 Linux 、 Windows …</p>
+<h3 id="利用本機連結-Instance"><a href="#利用本機連結-Instance" class="headerlink" title="利用本機連結 Instance"></a>利用本機連結 Instance</h3><p>在 AWS 上設定好一台虛擬主機後，這步是從本機端取得該主機的操作權限。<br>為此會需要建立 AWS 提供的金鑰對。</p>
+<h3 id="AWS-的金鑰對"><a href="#AWS-的金鑰對" class="headerlink" title="AWS 的金鑰對"></a>AWS 的金鑰對</h3><p>私鑰放在我們本機，公鑰放在我們建立的 AWS 的虛擬主機， 當我們利用本機要求對 AWS 虛擬主機做遠端操作時， AWS 會確認我們私鑰是否吻合，才會提供存取權限。</p>
+<p>通常我們會把私鑰下載下來（是個 pem 檔），然後存到 <code>~/.ssh</code> 這個路徑。</p>
+<p>最好設定私鑰的讀取權限為 400 ，避免被隨意更動。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chmod 400 ~/.ssh/&lt;<span class="keyword">private</span> key file&gt;.pem <span class="comment"># 設定私鑰存取權限</span></span><br><span class="line">ls -al <span class="comment"># 檢查存取權限是否有設定成功</span></span><br></pre></td></tr></table></figure>
+<h3 id="Public-IP"><a href="#Public-IP" class="headerlink" title="Public IP"></a>Public IP</h3><p>虛擬機器開始執行後，我們可以拿到連到該虛擬機器的 Public IP<br>想從本地端用 SSH 連進虛擬機器，輸入：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i ~/.ssh/&lt;<span class="keyword">private</span> key file&gt;.pem &lt;user name&gt;@&lt;EC2 IP address&gt;</span><br><span class="line"><span class="comment"># &lt;private key file&gt;.pem 就是私鑰檔案</span></span><br><span class="line"><span class="comment"># &lt;user name&gt; 系統默認 ec2-user 或 root 兩種</span></span><br><span class="line"><span class="comment"># &lt;EC2 IP address&gt; 為虛擬主機的 IP</span></span><br></pre></td></tr></table></figure>
+<p>有連進去代表已經可以順利使用了。</p>
+<h3 id="終止不需要的-EC"><a href="#終止不需要的-EC" class="headerlink" title="終止不需要的 EC"></a>終止不需要的 EC</h3><p>終止 EC2 就可以避免無形中被扣款。<br>在 EC2 Instance Console 選擇 ACTION -&gt; Terminate 就好</p>
+<h2 id="在虛擬主機中安裝伺服器"><a href="#在虛擬主機中安裝伺服器" class="headerlink" title="在虛擬主機中安裝伺服器"></a>在虛擬主機中安裝伺服器</h2><p>視不同的主機環境會有不同預裝的自動安裝工具可以執行，若是 Linux 會提供 YUM（Yellowdog Updater Modified）。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 因為這裡用 ec2-user 登入的關係，很多指令都要 sudo 才能執行</span></span><br><span class="line"><span class="comment"># 直接用 root 就沒有這種困擾</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 先 update 一輪</span></span><br><span class="line">$ sudo yum update -y</span><br><span class="line"><span class="comment"># 再安裝 Apache 伺服器</span></span><br><span class="line">$ sudo yum install -y httpd24</span><br><span class="line"><span class="comment"># 讓伺服器跑起來</span></span><br><span class="line">$ sudo service httpd start</span><br><span class="line"><span class="comment"># 設定運行級別（定義系統在哪些運行條件下會開啟此服務）</span></span><br><span class="line">$ sudo chkconfig httpd on</span><br><span class="line"><span class="comment"># 確認目前服務的運行級別</span></span><br><span class="line">$ chkconfig --list httpd</span><br></pre></td></tr></table></figure>
+<p>各個運行級別的定義如下：（一般會讓伺服器的 235 ON）</p>
+<p>0   Halt<br>1   Single-User mode<br>2   Multi-user mode console logins only (without networking)<br>3   Multi-User mode, console logins only<br>4   Not used/User-definable<br>5   Multi-User mode, with display manager as well as console logins (X11)<br>6   Reboot</p>
+<h3 id="開-Port"><a href="#開-Port" class="headerlink" title="開 Port"></a>開 Port</h3><p>AWS 對連接口要求設置 Security Rule 才會讓我們開啟，預設被打開的只有 SSH 這條通道，若要讓別人能夠透過瀏覽器連到我們伺服器，必須自己設定一個 PORT 。</p>
+<p>要到 AWS Console 去設置。<br>Instance -&gt; Security Groups -&gt; view Inbound rules 會顯示目前該主機已設置 rule 的通道。</p>
+<p>左列目錄 Security Groups -&gt; Instance -&gt; Inbound -&gt; Edit -&gt; Add Rules 輸入：</p>
+<ul>
+<li>Type: HTTP</li>
+<li>Protocol: TCP</li>
+<li>Port Range: 80</li>
+<li>Source: Custom</li>
+</ul>
+<p>儲存後，就可以使用瀏覽器連入。</p>
+<h2 id="手動將-Github-專案部署到伺服器"><a href="#手動將-Github-專案部署到伺服器" class="headerlink" title="手動將 Github 專案部署到伺服器"></a>手動將 Github 專案部署到伺服器</h2><p>其實大概流程就是：</p>
+<ol>
+<li>從本機端 push 專案到 Github</li>
+<li>用本機 SSH 存取 AWS 主機</li>
+<li>從主機把 Github 上的專案 pull 到伺服器根目錄</li>
+</ol>
+<p>前兩個大家都知道，但第三項要先做一些設定。</p>
+<h3 id="在伺服器安裝-Git"><a href="#在伺服器安裝-Git" class="headerlink" title="在伺服器安裝 Git"></a>在伺服器安裝 Git</h3><p>利用 <code>yum</code> ：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install git</span><br></pre></td></tr></table></figure>
+<h3 id="移動到伺服器根目錄"><a href="#移動到伺服器根目錄" class="headerlink" title="移動到伺服器根目錄"></a>移動到伺服器根目錄</h3><p>Apache 伺服器網站根目錄一般位於 <code>/var/www/html/</code> 下。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd /var/www/html</span><br></pre></td></tr></table></figure>
+<h3 id="對根目錄做-Git-初始化"><a href="#對根目錄做-Git-初始化" class="headerlink" title="對根目錄做 Git 初始化"></a>對根目錄做 Git 初始化</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+<h3 id="設定-AWS-主機的-SSH"><a href="#設定-AWS-主機的-SSH" class="headerlink" title="設定 AWS 主機的 SSH"></a>設定 AWS 主機的 SSH</h3><p>這是為了讓 Github 可以透過 SSH 和遠端主機連線，因為目前這個遠端主機只有兩個接口，一個是預設的 SSH port，一個是剛剛我們開啟的 Port 80。</p>
+<p>先產生一把鑰匙：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>透過該指令產生的 SSH 鑰匙對會放在家目錄下的資料夾 <code>.ssh</code> 中。移動過去：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/.ssh</span><br><span class="line">$ ls <span class="comment"># 應該會看到這些 authorized_keys  id_rsa  id_rsa.pub</span></span><br></pre></td></tr></table></figure>
+<p>裡面裝著 <code>id_rsa</code> 就是私鑰、 <code>id_rsa.pub</code> 就是公鑰。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat id_rsa.pub <span class="comment"># 顯示公鑰內容</span></span><br></pre></td></tr></table></figure>
+<h3 id="在-Github-專案設置-Deploy-Key"><a href="#在-Github-專案設置-Deploy-Key" class="headerlink" title="在 Github 專案設置 Deploy Key"></a>在 Github 專案設置 Deploy Key</h3><p>Deploy Key 讓握有 SSH Key 的系統可以讀到專案的內容，(預設不能更改，但這可以自己設定）。如此一來， 我們部署在 AWS 主機的伺服器就有權限以 SSH 連接的方式 pull 該內容。</p>
+<p>進入 Github 專案 -&gt; Deploy Key -&gt; Add deploy key -&gt; 貼上剛剛取得的公鑰 -&gt; Add key</p>
+<h3 id="設置-remote"><a href="#設置-remote" class="headerlink" title="設置 remote"></a>設置 remote</h3><p>回 AWS 根目錄設定好 remote 就可以 pull 了。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cd /var/www/html</span><br><span class="line">$ git remote add &lt;remote name&gt; &lt;remote repo url&gt;</span><br><span class="line">$ git pull &lt;remote branch&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="CI-Setup"><a href="#CI-Setup" class="headerlink" title="CI Setup"></a>CI Setup</h1><p>CI 是為了解決一次執行大量整合時，解衝突解到崩潰所出現的方案。為了避免一次性的大量整合，因此將整合拆解成無數的小整合；但是管理無數的小整合又會衍生其他麻煩，因此有了自動化的 CI 。 CI 除了自動整合外，還可以在每次整合上附加測試。</p>
+<p>這份筆記只包含設定 CI 環境到可以成功執行。這裡使用 Jenkins 做為 CI 工具。</p>
+<h2 id="安裝-Jenkins"><a href="#安裝-Jenkins" class="headerlink" title="安裝 Jenkins"></a>安裝 Jenkins</h2><p>按照官網說明找個地方安裝。</p>
+<h2 id="使用-Jenkins"><a href="#使用-Jenkins" class="headerlink" title="使用 Jenkins"></a>使用 Jenkins</h2><h3 id="設定使用者"><a href="#設定使用者" class="headerlink" title="設定使用者"></a>設定使用者</h3><p>要讓 Jenkins 代替我們與 AWS 主機互動，我們也得給予它 AWS 私鑰。<br>在 Manage Jenkins -&gt; Configuration -&gt; Publish over SSH -&gt; SSH Servers 可以設定：</p>
+<p>Name: 自由取名<br>Hostname: AWS 主機的 IP<br>Username: root / ec2-user</p>
+<p>接著進入「進階」選項：</p>
+<p>key: AWS 私鑰<br>就可以儲存了。</p>
+<h3 id="新增作業"><a href="#新增作業" class="headerlink" title="新增作業"></a>新增作業</h3><p>點選 New Item </p>
+<p>name: 自由取名<br>點選 Freestyle project<br>建立完成</p>
+<p>接著設定該作業<br>在進入該作業後，點選左列的 Configurations 可以設定作業的內容。<br>為了測試 Jenkins 是否如我們設定，擁有存取 AWS 主機的權限，我們可以先設定一個簡單的建置任務：</p>
+<p>Build -&gt; Send files or execute commands over SSH</p>
+<p>SSH Publishers: 選擇剛剛建好的 SSH Server<br>Transfers -&gt; Exec Command:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在這裡輸入的指令， Jenkins 會在建置時代替我們用 AWS 主機執行</span></span><br><span class="line"><span class="comment"># 輸入以下指令</span></span><br><span class="line">cd /var/www/html</span><br><span class="line">sudo touch hello.txt</span><br></pre></td></tr></table></figure>
+<p>點選 Add Transfer Set 。</p>
+<p>上述動作會讓 Jenkins 在發動建置時，在伺服器根目錄新增一個 <code>hello.txt</code> 的檔案。</p>
+<p>點選專案右列的 Build Now 會馬上啟動建置。 Jenkins 會在左邊顯示建置進度。等完成後，開啟 AWS 伺服器確認是否多了一個 <code>hello.txt</code> 檔案就能夠確定建置是否成功。</p>
+<h3 id="連接-Jenkins-和-GitHub"><a href="#連接-Jenkins-和-GitHub" class="headerlink" title="連接 Jenkins 和 GitHub"></a>連接 Jenkins 和 GitHub</h3><p>我們利用的是 GitHub 提供的 Webhooks ，Webhooks 可以讓 Github 在觸發某些事件（例如 push）時，以 POST 請求的方式傳送資訊到第三方的 URL（這裡為 Jenkins API）。</p>
+<p>因此，我們可以設定 Webhooks 在每次 push 時傳送資訊給 Jenkins ，在透過 Jenkins 設定接收到這些資訊時，操控 AWS 主機從 Git 把專案 pull 下來，就可以達到自動 deploy。</p>
+<p>在設定作業的 Build Triggers：<br>勾選 Remote<br>下面會冒出 Access Token 選項，並且會提供一串 URL ，該 URL 就是 Jenkins 提供的 API ，只要 GitHub 的Webhooks 連接到該 API ，若比對 token 一致，就會觸發 Jenkins 的建置程序。<br>這裡可以自行輸入 token 。</p>
+<p>設定 Webhooks：<br>連到 GitHub 的專案 Repository -&gt; Settings -&gt; Webhooks -&gt; Add Webhooks</p>
+<p>Payload URL: <code>&lt;Jenkins所在的URL&gt;/job/&lt;作業名稱&gt;/build?token=&lt;token名稱&gt;</code><br>Content type: 預設<br>Which events would you like to trigger this webhook?: Just the push event<br>Active: 勾選</p>
+<p>Add 完畢後，從本機端發動 push ，並查看伺服器網頁是否自動同步，若有就是成功了！</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://aws.amazon.com/tw/getting-started/tutorials/launch-a-virtual-machine/" target="_blank" rel="noopener">AWS EC2 服務的申請流程</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-LAMP.html" target="_blank" rel="noopener">在 AWS AMI 環境安裝 Apache 伺服器</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#adding-security-group-rule" target="_blank" rel="noopener">開 Port</a></li>
+<li><a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank" rel="noopener">用 SSH 和 Github 連結</a></li>
+<li><a href="https://blog.github.com/2015-06-16-read-only-deploy-keys/" target="_blank" rel="noopener">Github Deploy Key</a></li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Deploy"><span class="toc-number">2.</span> <span class="toc-text">Deploy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#註冊虛擬主機"><span class="toc-number">2.1.</span> <span class="toc-text">註冊虛擬主機</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Launch-Instance"><span class="toc-number">2.1.1.</span> <span class="toc-text">Launch Instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設定-Instance-的環境"><span class="toc-number">2.1.2.</span> <span class="toc-text">設定 Instance 的環境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用本機連結-Instance"><span class="toc-number">2.1.3.</span> <span class="toc-text">利用本機連結 Instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AWS-的金鑰對"><span class="toc-number">2.1.4.</span> <span class="toc-text">AWS 的金鑰對</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Public-IP"><span class="toc-number">2.1.5.</span> <span class="toc-text">Public IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#終止不需要的-EC"><span class="toc-number">2.1.6.</span> <span class="toc-text">終止不需要的 EC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在虛擬主機中安裝伺服器"><span class="toc-number">2.2.</span> <span class="toc-text">在虛擬主機中安裝伺服器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#開-Port"><span class="toc-number">2.2.1.</span> <span class="toc-text">開 Port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手動將-Github-專案部署到伺服器"><span class="toc-number">2.3.</span> <span class="toc-text">手動將 Github 專案部署到伺服器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在伺服器安裝-Git"><span class="toc-number">2.3.1.</span> <span class="toc-text">在伺服器安裝 Git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移動到伺服器根目錄"><span class="toc-number">2.3.2.</span> <span class="toc-text">移動到伺服器根目錄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#對根目錄做-Git-初始化"><span class="toc-number">2.3.3.</span> <span class="toc-text">對根目錄做 Git 初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設定-AWS-主機的-SSH"><span class="toc-number">2.3.4.</span> <span class="toc-text">設定 AWS 主機的 SSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在-Github-專案設置-Deploy-Key"><span class="toc-number">2.3.5.</span> <span class="toc-text">在 Github 專案設置 Deploy Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#設置-remote"><span class="toc-number">2.3.6.</span> <span class="toc-text">設置 remote</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CI-Setup"><span class="toc-number">3.</span> <span class="toc-text">CI Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安裝-Jenkins"><span class="toc-number">3.1.</span> <span class="toc-text">安裝 Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-Jenkins"><span class="toc-number">3.2.</span> <span class="toc-text">使用 Jenkins</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#設定使用者"><span class="toc-number">3.2.1.</span> <span class="toc-text">設定使用者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新增作業"><span class="toc-number">3.2.2.</span> <span class="toc-text">新增作業</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#連接-Jenkins-和-GitHub"><span class="toc-number">3.2.3.</span> <span class="toc-text">連接 Jenkins 和 GitHub</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">3.3.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&text=Deployment and Setup CI"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&is_video=false&description=Deployment and Setup CI"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deployment and Setup CI&body=Check out this article: http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&title=Deployment and Setup CI"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/04/28/Deployment-and-Setup-CI/&name=Deployment and Setup CI&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Arel
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/godlike0108">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-114373704-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'arel-lin';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
